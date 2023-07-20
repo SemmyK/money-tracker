@@ -17,13 +17,19 @@ function Signup() {
 
 	const handleSubmit = async e => {
 		e.preventDefault()
+		if (password.length < 8) {
+			toast.error('Password must have at least 8 characters.')
+		}
 		console.log(email, password, displayName)
+
 		try {
-			await signup(email, password, displayName)
-			toast.success('Welcome, ' + displayName)
-			setDisplayName('')
-			setEmail('')
-			setPassword('')
+			if (password.length >= 8) {
+				await signup(email, password, displayName)
+				toast.success('Welcome, ' + displayName)
+				setDisplayName('')
+				setEmail('')
+				setPassword('')
+			}
 		} catch (err) {
 			console.log(err)
 			toast.error(err.message)
@@ -64,7 +70,9 @@ function Signup() {
 					<span>password:</span>
 					<input
 						type='password'
-						onChange={e => setPassword(e.target.value)}
+						onChange={e => {
+							setPassword(e.target.value)
+						}}
 						value={password}
 					/>
 				</label>
